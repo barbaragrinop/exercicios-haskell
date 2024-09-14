@@ -1,55 +1,73 @@
-doisA :: [Int]
+-- Gerar as listas
+
+doisA :: [Int] -- [1,11,121,1331,14641,161051,1771561]
 doisA = [11 ^ x | x <- [0 .. 6]]
 
-doisB :: [Int]
+doisB :: [Int] -- [1,2,3,5,6,7,9,10,11,13,14,15,17,18,19,21,22,23,25,26,27,29,30,31,33,34,35,37,38,39]
 doisB = [x | x <- [1 .. 40], mod x 4 /= 0]
 
-doisC :: [String]
+doisC :: [String] -- ["AaBB", "AbBB", "AcBB", "AdBB", "AeBB", "AfBB", "AgBB"]
 doisC = [[a] ++ [xs] ++ "BB" | a <- ['A'], xs <- ['a' .. 'g']]
 
--- doisD :: [Int] perguntar pro felipe
--- doisD =  [x | x <- [5..41]]
+doisD :: [Int] -- [5,8,11,17,20,26,29,32,38,41]
+doisD = [3 * n + 2 | n <- [1 .. 13]]
 
-doisE :: [Float]
+doisE :: [Float] -- [1.0,0.5,0.25,0.125,0.0625,0.03125]
 doisE = [1 / (2 ^ x) | x <- [1 .. 5]]
 
-doisF :: [Int]
+doisF :: [Int] -- [1,10,19,28,37,46,55,64]
 doisF = [9 * x + 1 | x <- [0 .. 7]]
 
--- doisG :: perguntar pro felipe
--- [2,4,8,10,12,16,18,22,24,28,30]
---     6       14       22  26
+doisG :: [Int] -- [2,4,8,10,12,16,18,22,24,28,30]
+doisG = [x * 2 | x <- [1 .. 20], x * 2 `notElem` [6, 14, 20, 26]]
 
-doisH :: [Char]
+doisH :: [Char] -- ['@','A','C','D','E','G','J','L']
 doisH = ['@', 'A', 'C', 'D', 'E', 'G', 'J', 'L']
 
--- 2.2
+{-
+2.2. Crie uma função que verifique se o tamanho de uma String é par	ou	não. Use Bool comoretorno.
+-}
 tamanhoStringEhPar :: String -> Bool
 tamanhoStringEhPar x = even (length x)
 
 -- 2.3
+{-
+ Escreva	 uma	 função	 que	 receba	 um	 vetor	 de	 Strings	 e
+retorne	uma	lista	com	todos	os	elementos	em	ordem	reversa
+-}
 listaReversa :: [String] -> [String]
 listaReversa xs = reverse xs
 
 -- 2.4
+{- 	 Escreva	 uma	 função	 que	 receba	 um	 vetor	 de	 Strings	 e
+retorne	 uma	lista	 com	 o	 tamanho	 de	 cada	 String.	As	palavras	 de
+tamanho	par	devem	ser	excluídas	da	resposta -}
 tamanhoStringApenasImpares :: [String] -> [Int]
 tamanhoStringApenasImpares xs = [length x | x <- xs, odd (length x)]
 
 -- 2.5
--- boa sorte
+{- Escreva	a	função		head		como	composição	de	duas	outras -}
+{-Pegar a primeira letra da primeira String de um vetor-}
+composicao :: [String] -> Char
+composicao xs = head $ head xs
 
 -- 2.6
+{- Faça	uma	função	que	receba	uma	String	e	retorne		True
+se	esta	for	um	palíndromo;	caso	contrário,		False	. -}
 ehPalindromo :: String -> Bool
 ehPalindromo x = reverse x == x
 
 -- 2.7
+{-
+Faça	 uma	 função	 que	 receba	 um	 inteiro	 e	 retorne	 uma
+tupla,	contendo:	o	dobro	deste	número	na	primeira	coordenada,	o
+triplo	na	segunda,	o	quádruplo	na	terceira	e	o	quíntuplo	na	quarta.
+-}
 foo :: Int -> (Int, Int, Int, Int)
--- foo x = (x * 2, x * 3, x * 4, x * 5)
-foo x = let [a, b, c, d] = [x * y | y <- [2 .. 5]] in (a, b, c, d)
-
--- os dois fazem a mesma coisa, só coloquei pra ver como fazia com esse "map"
-
----------------------------------------------- cabo o 2 (falta alguns depois nós ve com o felipe)
+foo x = (x * 2, x * 3, x * 4, x * 5)
+-- OU
+-- foo x = let [a, b, c, d] = [x * y | y <- [2 .. 5]] in (a, b, c, d)
+------------------------------------------------------------------------------------------
 
 -- 3.1
 data Pergunta = Sim | Nao deriving (Show)
@@ -78,7 +96,7 @@ data Temperatura = Celsius Double | Fahrenheit Double | Kevin Double deriving (S
 
 converterCelsius :: Temperatura -> Double
 converterCelsius (Celsius c) = c
-converterCelsius (Fahrenheit c) = (c * 9 / 5) + 32
+converterCelsius (Fahrenheit c) = 32 + (c * 9 / 5) 
 converterCelsius (Kevin c) = c + 273.15
 
 converterKevin :: Temperatura -> Double
@@ -94,16 +112,13 @@ converterFahrenheit (Kevin f) = ((f - 32) * 5 / 9) + 273.15
 -- 3.3
 data Jogo = Pedra | Papel | Tesoura deriving (Show)
 
-jogoDaVelha :: Jogo -> Jogo -> String
-jogoDaVelha Pedra Pedra = "Empate"
-jogoDaVelha Papel Papel = "Empate"
-jogoDaVelha Tesoura Tesoura = "Empate"
-
-jogoDaVelha Tesoura Papel = "Tesoura venceu!"
-jogoDaVelha Tesoura Pedra = "Pedra venceu!"
-
-jogoDaVelha Papel Pedra = "Papel venceu!"
-jogoDaVelha Papel Tesoura = "Tesoura Venceu!"
-
-jogoDaVelha Pedra Tesoura = "Pedra venceu!"
-jogoDaVelha Pedra Papel = "Papel venceu!" 
+partida :: Jogo -> Jogo -> String
+partida Pedra Pedra = "Empate"
+partida Papel Papel = "Empate"
+partida Tesoura Tesoura = "Empate"
+partida Tesoura Papel = "Tesoura venceu!"
+partida Tesoura Pedra = "Pedra venceu!"
+partida Papel Pedra = "Papel venceu!"
+partida Papel Tesoura = "Tesoura Venceu!"
+partida Pedra Tesoura = "Pedra venceu!"
+partida Pedra Papel = "Papel venceu!"

@@ -22,24 +22,25 @@ doisG :: [Int] -- [2,4,8,10,12,16,18,22,24,28,30]
 doisG = [x * 2 | x <- [1 .. 20], x * 2 `notElem` [6, 14, 20, 26]]
 
 doisH :: [Char] -- ['@','A','C','D','E','G','J','L']
-doisH = [x | x <- '@' : ['A'..'L'], x `notElem` ['B','F','H','I','K']]
+doisH = [x | x <- '@' : ['A' .. 'L'], x `notElem` ['B', 'F', 'H', 'I', 'K']]
+
 {-
-2.2. Crie uma função que verifique se o tamanho de uma String é par	ou	não. Use Bool comoretorno.
+2.2. Crie uma função que verifique se o tamanho de uma String é par ou	não. Use Bool comoretorno.
 -}
 tamanhoStringEhPar :: String -> Bool
 tamanhoStringEhPar x = even (length x)
 
 -- 2.3
 {-
- Escreva	 uma	 função	 que	 receba	 um	 vetor	 de	 Strings	 e
+ Escreva uma função que receba um vetor de Strings e
 retorne	uma	lista	com	todos	os	elementos	em	ordem	reversa
 -}
 listaReversa :: [String] -> [String]
 listaReversa xs = reverse xs
 
 -- 2.4
-{- 	 Escreva	 uma	 função	 que	 receba	 um	 vetor	 de	 Strings	 e
-retorne	 uma	lista	 com	 o	 tamanho	 de	 cada	 String.	As	palavras	 de
+{-  Escreva uma função que receba um vetor de Strings e
+retorne uma	lista com o tamanho de cada String.	As	palavras de
 tamanho	par	devem	ser	excluídas	da	resposta -}
 tamanhoStringApenasImpares :: [String] -> [Int]
 tamanhoStringApenasImpares xs = [length x | x <- xs, odd (length x)]
@@ -58,19 +59,22 @@ ehPalindromo x = reverse x == x
 
 -- 2.7
 {-
-Faça	 uma	 função	 que	 receba	 um	 inteiro	 e	 retorne	 uma
+Faça uma função que receba um inteiro e retorne uma
 tupla,	contendo:	o	dobro	deste	número	na	primeira	coordenada,	o
 triplo	na	segunda,	o	quádruplo	na	terceira	e	o	quíntuplo	na	quarta.
 -}
 foo :: Int -> (Int, Int, Int, Int)
-foo x = (x * 2, x * 3, x * 4, x * 5)
+foo x = let [a, b, c, d] = [x * y | y <- [2 .. 5]] in (a, b, c, d)
 
--- OU
--- foo x = let [a, b, c, d] = [x * y | y <- [2 .. 5]] in (a, b, c, d)
 ------------------------------------------------------------------------------------------
 
 -- 3.1
-data Pergunta = Sim | Nao deriving Show
+{-
+Crie o tipo Pergunta com os values constructors Sim
+ou Nao . Faça as funções seguintes, determinando seus tipos
+explicitamente.
+-}
+data Pergunta = Sim | Nao deriving (Show)
 
 pergNum :: Pergunta -> Int
 pergNum Nao = 0
@@ -92,7 +96,10 @@ not' Sim = False
 not' Nao = True
 
 -- 3.2
-data Temperatura = Celsius Double | Fahrenheit Double | Kevin Double deriving Show
+{-
+Faça o tipo Temperatura que pode ter valores Celsius, Farenheit ou Kelvin.
+-}
+data Temperatura = Celsius Double | Fahrenheit Double | Kevin Double deriving (Show)
 
 converterCelsius :: Temperatura -> Double
 converterCelsius (Celsius c) = c
@@ -110,7 +117,12 @@ converterFahrenheit (Celsius f) = (f - 32) * 5 / 9
 converterFahrenheit (Kevin f) = ((f - 32) * 5 / 9) + 273.15
 
 -- 3.3
-data Jogo = Pedra | Papel | Tesoura deriving Show
+{-
+Implemente uma função que simule o vencedor de uma
+partida de pedra, papel e tesoura usando tipos criados. Casos de
+empate devem ser considerados em seu tipo.
+-}
+data Jogo = Pedra | Papel | Tesoura deriving (Show)
 
 partida :: Jogo -> Jogo -> String
 partida Pedra Pedra = "Empate"
@@ -124,15 +136,30 @@ partida Pedra Tesoura = "Pedra venceu!"
 partida Pedra Papel = "Papel venceu!"
 
 -- 3.4
+{-
+Faça uma função que retorne uma string, com todas as
+vogais maiúsculas e minúsculas eliminadas de uma string passada
+por parâmetro usando list compreenshion.
+-}
 vogais :: String
 vogais = "aeiouAEIOU"
 
 removeVogais :: String -> String
 removeVogais palavra = [x | x <- palavra, x `notElem` vogais]
 
---3.21
-data Unidade = Real | Dollar | Euro deriving Show
-data Moeda = Moeda {valor :: Int, unidade :: Unidade} deriving Show
+
+-- 3.21
+{-
+Crie a função maxMoeda que recebe uma lista de moedas
+e retorna o valor máximo absoluto (sem conversão alguma) dentre
+os campos val desta lista. Exemplo:
+
+Prelude> maxMoeda [Moeda 3 Real, Moeda 7 Dollar, Moeda 1 Euro] 7
+Use a função maximum.
+-}
+data Unidade = Real | Dollar | Euro deriving (Show)
+
+data Moeda = Moeda {valor :: Int, unidade :: Unidade} deriving (Show)
 
 maxMoeda :: [Moeda] -> Int
 maxMoeda moedas = maximum [valor moeda | moeda <- moedas]

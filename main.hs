@@ -147,24 +147,6 @@ vogais = "aeiouAEIOU"
 removeVogais :: String -> String
 removeVogais palavra = [x | x <- palavra, x `notElem` vogais]
 
-
--- 3.21
-{-
-Crie a função maxMoeda que recebe uma lista de moedas
-e retorna o valor máximo absoluto (sem conversão alguma) dentre
-os campos val desta lista. Exemplo:
-
-Prelude> maxMoeda [Moeda 3 Real, Moeda 7 Dollar, Moeda 1 Euro] 7
-Use a função maximum.
--}
-data Unidade = Real | Dollar | Euro deriving (Show)
-
-data Moeda = Moeda {valor :: Int, unidade :: Unidade} deriving (Show)
-
-maxMoeda :: [Moeda] -> Int
-maxMoeda moedas = maximum [valor moeda | moeda <- moedas]
-
-
 -- 3.10
 {-
 Faça  uma  função  chamada   revNum ,  que  receba  uma
@@ -217,3 +199,20 @@ mult2 :: Binario -> Binario -> Binario
 mult2 Zero _ = Zero
 mult2 _ Zero = Zero
 mult2 Um   Um = Um
+
+
+-- 3.21
+{-
+Crie a função maxMoeda que recebe uma lista de moedas
+e retorna o valor máximo absoluto (sem conversão alguma) dentre
+os campos val desta lista. Exemplo:
+
+Prelude> maxMoeda [Moeda 3 Real, Moeda 7 Dollar, Moeda 1 Euro] 7
+Use a função maximum.
+-}
+data Unidade = Real | Dollar | Euro deriving (Show)
+
+data Moeda = Moeda {valor :: Int, unidade :: Unidade} deriving (Show)
+
+maxMoeda :: [Moeda] -> Int
+maxMoeda moedas = maximum [valor moeda | moeda <- moedas]

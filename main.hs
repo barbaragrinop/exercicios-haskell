@@ -13,7 +13,7 @@ doisD :: [Int] -- [5,8,11,17,20,26,29,32,38,41]
 doisD = [3 * n + 2 | n <- [1 .. 13]]
 
 doisE :: [Float] -- [1.0,0.5,0.25,0.125,0.0625,0.03125]
-doisE = [1 / (2 ^ x) | x <- [1 .. 5]]
+doisE = [1 / (2 ^ x) | x <- [0 .. 5]]
 
 doisF :: [Int] -- [1,10,19,28,37,46,55,64]
 doisF = [9 * x + 1 | x <- [0 .. 7]]
@@ -22,8 +22,7 @@ doisG :: [Int] -- [2,4,8,10,12,16,18,22,24,28,30]
 doisG = [x * 2 | x <- [1 .. 20], x * 2 `notElem` [6, 14, 20, 26]]
 
 doisH :: [Char] -- ['@','A','C','D','E','G','J','L']
-doisH = ['@', 'A', 'C', 'D', 'E', 'G', 'J', 'L']
-
+doisH = [x | x <- '@' : ['A'..'L'], x `notElem` ['B','F','H','I','K']]
 {-
 2.2. Crie uma função que verifique se o tamanho de uma String é par	ou	não. Use Bool comoretorno.
 -}
@@ -65,12 +64,13 @@ triplo	na	segunda,	o	quádruplo	na	terceira	e	o	quíntuplo	na	quarta.
 -}
 foo :: Int -> (Int, Int, Int, Int)
 foo x = (x * 2, x * 3, x * 4, x * 5)
+
 -- OU
 -- foo x = let [a, b, c, d] = [x * y | y <- [2 .. 5]] in (a, b, c, d)
 ------------------------------------------------------------------------------------------
 
 -- 3.1
-data Pergunta = Sim | Nao deriving (Show)
+data Pergunta = Sim | Nao deriving Show
 
 pergNum :: Pergunta -> Int
 pergNum Nao = 0
@@ -92,11 +92,11 @@ not' Sim = False
 not' Nao = True
 
 -- 3.2
-data Temperatura = Celsius Double | Fahrenheit Double | Kevin Double deriving (Show)
+data Temperatura = Celsius Double | Fahrenheit Double | Kevin Double deriving Show
 
 converterCelsius :: Temperatura -> Double
 converterCelsius (Celsius c) = c
-converterCelsius (Fahrenheit c) = 32 + (c * 9 / 5) 
+converterCelsius (Fahrenheit c) = 32 + (c * 9 / 5)
 converterCelsius (Kevin c) = c + 273.15
 
 converterKevin :: Temperatura -> Double
@@ -110,7 +110,7 @@ converterFahrenheit (Celsius f) = (f - 32) * 5 / 9
 converterFahrenheit (Kevin f) = ((f - 32) * 5 / 9) + 273.15
 
 -- 3.3
-data Jogo = Pedra | Papel | Tesoura deriving (Show)
+data Jogo = Pedra | Papel | Tesoura deriving Show
 
 partida :: Jogo -> Jogo -> String
 partida Pedra Pedra = "Empate"
@@ -122,3 +122,17 @@ partida Papel Pedra = "Papel venceu!"
 partida Papel Tesoura = "Tesoura Venceu!"
 partida Pedra Tesoura = "Pedra venceu!"
 partida Pedra Papel = "Papel venceu!"
+
+-- 3.4
+vogais :: String
+vogais = "aeiouAEIOU"
+
+removeVogais :: String -> String
+removeVogais palavra = [x | x <- palavra, x `notElem` vogais]
+
+--3.21
+data Unidade = Real | Dollar | Euro deriving Show
+data Moeda = Moeda {valor :: Int, unidade :: Unidade} deriving Show
+
+maxMoeda :: [Moeda] -> Int
+maxMoeda moedas = maximum [valor moeda | moeda <- moedas]

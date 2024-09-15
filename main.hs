@@ -163,3 +163,57 @@ data Moeda = Moeda {valor :: Int, unidade :: Unidade} deriving (Show)
 
 maxMoeda :: [Moeda] -> Int
 maxMoeda moedas = maximum [valor moeda | moeda <- moedas]
+
+
+-- 3.10
+{-
+Faça  uma  função  chamada   revNum ,  que  receba  uma
+String s e um Int n . Esta deverá retornar as n primeiras letras
+em ordem reversa e o restante em sua ordem normal.
+-}
+
+revNum :: Int -> String -> String
+revNum n s = reverse (take n s) ++ drop n s
+
+-- 3.11
+{-
+Crie o tipo	de dado Binario que pode ser Zero ou Um. Faça outro tipo de dado
+chamado Funcao que pode ser Soma2, Maior, Menor ou Mult2. Implemente a 
+função aplicar que recebe uma Funcao e dois Binarios. Seu retorno consiste	
+em executar a operação desejada
+-}
+
+
+data Binario = Zero | Um deriving (Show, Eq)
+
+data Funcao = Soma2 | Maior | Menor | Mult2 deriving (Show, Eq)
+
+aplicar :: Funcao -> Binario -> Binario -> Binario
+aplicar f x y = case f of
+    Soma2  -> soma2 x y
+    Maior  -> maior x y
+    Menor  -> menor x y
+    Mult2  -> mult2 x y
+
+soma2 :: Binario -> Binario -> Binario
+soma2 Zero Zero = Zero
+soma2 Zero Um   = Um
+soma2 Um   Zero = Um
+soma2 Um   Um   = Zero
+
+maior :: Binario -> Binario -> Binario
+maior Zero Zero = Zero
+maior Zero Um   = Um
+maior Um   Zero = Um
+maior Um   Um   = Um
+
+menor :: Binario -> Binario -> Binario
+menor Zero Zero = Zero
+menor Zero Um   = Zero
+menor Um   Zero = Zero
+menor Um   Um   = Um
+
+mult2 :: Binario -> Binario -> Binario
+mult2 Zero _ = Zero
+mult2 _ Zero = Zero
+mult2 Um   Um = Um
